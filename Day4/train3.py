@@ -514,7 +514,7 @@ if __name__ == "__main__":
     main()
 
 """ 
-Test Usage:
+Test Usage (Worked)
 accelerate launch train2.py \
     --model_config_name "HuggingFaceTB/SmolLM2-1.7B" \
     --tokenizer_name "HuggingFaceTB/SmolLM2-1.7B" \
@@ -540,7 +540,7 @@ accelerate launch train.py \
 """
 
 """ 
-Production Usage:
+Production Usage (Working)
 accelerate launch train3.py \
     --model_config_name "HuggingFaceTB/SmolLM2-1.7B" \
     --tokenizer_name "HuggingFaceTB/SmolLM2-1.7B" \
@@ -556,6 +556,5 @@ accelerate launch train3.py \
     --generation_steps 2000 \
     --report_to "wandb" \
     --use_8bit_optimizer \
-    --empty_cache_steps 100 \
-    --torch_compile
+    --empty_cache_steps 100
 """
