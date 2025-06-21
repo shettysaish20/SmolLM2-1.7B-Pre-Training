@@ -194,6 +194,17 @@ def cleanup_old_checkpoints(output_dir, keep_last=3):
         except Exception as e:
             logger.warning(f"Failed to remove checkpoint {checkpoint_dir}: {e}")
 
+def log_system_stats(step, log_file):
+    """Log system statistics"""
+    if torch.cuda.is_available():
+        for i in range(torch.cuda.device_count()):
+            memory_used = torch.cuda.memory_allocated(i) / 1e9
+            memory_total = torch.cuda.get_device_properties(i).total_memory / 1e9
+            utilization = torch.cuda.utilization(i) if hasattr(torch.cuda, 'utilization') else 0
+            
+            log_message(f"GPU {i}: {memory_used:.1f}GB/{memory_total:.1f}GB ({utilization}% util)", log_file)
+
+
 def main():
     args = parse_args()
     
@@ -265,9 +276,10 @@ def main():
         shuffle=True,
         collate_fn=data_collator,
         batch_size=args.per_device_train_batch_size,
-        num_workers=8,  # Reduced for memory
+        num_workers=4,  # Reduced for memory
         pin_memory=False,  # Disabled for memory
         persistent_workers=True,
+        drop_last=True,  # Ensure full batches
         prefetch_factor=1
     )
 
@@ -448,6 +460,7 @@ def main():
                     # Log to markdown file
                     if accelerator.is_main_process:
                         log_training_step(completed_steps, args.max_train_steps, avg_loss, current_lr, gpu_memory, generation_sample, log_file)
+                        log_system_stats(completed_steps, log_file)
                     
                     running_loss = 0.0
 
@@ -501,7 +514,7 @@ if __name__ == "__main__":
     main()
 
 """ 
-Usage:
+Test Usage:
 accelerate launch train2.py \
     --model_config_name "HuggingFaceTB/SmolLM2-1.7B" \
     --tokenizer_name "HuggingFaceTB/SmolLM2-1.7B" \
@@ -524,4 +537,25 @@ accelerate launch train2.py \
 accelerate launch train.py \
     --resume_from_checkpoint "/path/to/checkpoint-5000" \
     [other arguments...]
+"""
+
+""" 
+Production Usage:
+accelerate launch train3.py \
+    --model_config_name "HuggingFaceTB/SmolLM2-1.7B" \
+    --tokenizer_name "HuggingFaceTB/SmolLM2-1.7B" \
+    --pretokenized_dataset_path "/home/ubuntu/bigdata/Training/Day4/cosmopedia-v2-1B/cosmopedia-v2-1B-tokenized" \
+    --output_dir "/home/ubuntu/bigdata/Training/Day4/cosmopedia-v2-1B/smollm-1.7B-cosmo-1B-production" \
+    --per_device_train_batch_size 1 \
+    --gradient_accumulation_steps 16 \
+    --learning_rate 2e-5 \
+    --max_train_steps 50000 \
+    --num_warmup_steps 1000 \
+    --save_steps 2000 \
+    --log_steps 500 \
+    --generation_steps 2000 \
+    --report_to "wandb" \
+    --use_8bit_optimizer \
+    --empty_cache_steps 100 \
+    --torch_compile
 """
