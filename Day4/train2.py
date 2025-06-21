@@ -197,6 +197,10 @@ def cleanup_old_checkpoints(output_dir, keep_last=3):
 def main():
     args = parse_args()
     
+    # CRITICAL FIX 1: Declare shutdown_requested in main scope
+    global shutdown_requested
+    shutdown_requested = False
+    
     # Register signal handlers for spot instance interruptions
     signal.signal(signal.SIGTERM, signal_handler)
     signal.signal(signal.SIGINT, signal_handler)
@@ -384,8 +388,8 @@ def main():
     
     try:
         while completed_steps < args.max_train_steps:
-            # if shutdown_requested:
-            #     break
+            if shutdown_requested:
+                break
             try:
                 batch = next(dataloader_iter)
             except StopIteration:

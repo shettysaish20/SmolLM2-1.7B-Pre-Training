@@ -7,6 +7,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Pre-tokenize a dataset for language model training.")
     parser.add_argument("--tokenizer_name", type=str, required=True, help="Name or path of the tokenizer.")
     parser.add_argument("--dataset_name", type=str, required=True, help="Name of the dataset to process.")
+    parser.add_argument("--subset_name", type=str, required=True, help="Name of the dataset to process.")
     parser.add_argument("--output_path", type=str, required=True, help="Path on EBS to save the tokenized dataset.")
     parser.add_argument("--sequence_length", type=int, default=2048, help="The sequence length for tokenization.")
     parser.add_argument("--num_proc", type=int, default=8, help="Number of CPU cores to use for tokenization.")
@@ -31,6 +32,7 @@ def main():
     # Load the raw dataset with explicit cache_dir
     dataset = load_dataset(
         args.dataset_name, 
+        args.subset_name,  # Use the subset name provided
         split="train",
         cache_dir=cache_dir  # Explicitly set cache directory
     )
@@ -92,10 +94,11 @@ python prepare_data.py \
 
 """ 
 Usage 3 (Did not work)
-python prepare_data.py \
+python prepare_data_subset.py \
     --tokenizer_name "HuggingFaceTB/SmolLM2-1.7B" \
-    --dataset_name "EleutherAI/SmolLM2-1.7B-stage-4-20B" \
-    --output_path "/home/ubuntu/bigdata/Training/Day4/cosmopedia-v2-20B/cosmopedia-v2-20B-tokenized" \
+    --dataset_name "HuggingFaceTB/smollm-corpus" \
+    --subset_name "cosmopedia-v2" \
+    --output_path "/home/ubuntu/bigdata/Training/Day4/cosmopedia-v2/cosmopedia-v2-tokenized" \
     --sequence_length 2048 \
     --num_proc 16 \
     --cache_dir "/home/ubuntu/bigdata/.cache"
