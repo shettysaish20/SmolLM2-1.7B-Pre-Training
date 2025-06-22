@@ -235,7 +235,7 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENS
 
 ## 📞 Contact & Citation
 
-**Model**: [saish-shetty/SmolLM2-1.7B-pre-trained](https://huggingface.co/saish-shetty/SmolLM2-1.7B-pre-trained)
+**Model**: [saish-shetty/SmolLM2-1.7B-pre-trained](https://huggingface.co/saish-shetty/SmolLM2-1.7B-pre-trained) <br>
 **Demo**: [saish-shetty/SmolLM2-Pre-Trained-Demo](https://huggingface.co/spaces/saish-shetty/SmolLM2-Pre-Trained-Demo)
 
 If you use this work, please cite:
