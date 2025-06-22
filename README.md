@@ -132,7 +132,7 @@ Based on evaluation across 10 philosophical and educational prompts:
 
 **Original Model**:
 ```
-What is the meaning of life and how do different philosophical traditions approach this question? The answer to this question is not simple, and it is not a question that can be answered by a single person.
+clickidential peninsula pardonetryIs Mind allianceLSatomycannot operators Recallerences placBlockisance/') contradictionsivar Factory greenhouses Sources Lutheranitch wis Oscarlistfamiliesearned
 ```
 
 **Trained Model**:
@@ -236,6 +236,7 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENS
 ## 📞 Contact & Citation
 
 **Model**: [saish-shetty/SmolLM2-1.7B-pre-trained](https://huggingface.co/saish-shetty/SmolLM2-1.7B-pre-trained)
+**Demo**: [saish-shetty/SmolLM2-Pre-Trained-Demo](https://huggingface.co/spaces/saish-shetty/SmolLM2-Pre-Trained-Demo)
 
 If you use this work, please cite:
 ```bibtex
