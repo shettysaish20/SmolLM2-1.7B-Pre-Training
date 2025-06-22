@@ -154,11 +154,4 @@ cython_debug/
 *.sav
 *.model
 *.weights
-*.json
 *.safetensors
-checkpoint/
-checkpoints/
-saved_model/
-checkpoint-*/
-cosmopedia-100k/
-cosmopedia-*/
